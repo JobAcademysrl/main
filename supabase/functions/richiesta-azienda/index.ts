@@ -17,6 +17,22 @@ const CAMPI: [string, string, boolean][] = [
   ["estero", "Lavoratori dall'estero", true], ["alloggio", "Alloggio", true], ["note", "Note", false],
 ];
 
+// Reads the secrets tolerating the usual slips (lowercase or padded names, spaces inside the app password).
+// On failure it logs only which SMTP-like secret names exist, never their values.
+function smtpCredenziali() {
+  const env = Deno.env.toObject();
+  const trova = (nome: string) => {
+    const k = Object.keys(env).find((k) => k.trim().toUpperCase() === nome);
+    return k ? env[k].trim() : "";
+  };
+  const user = trova("SMTP_USER"), pass = trova("SMTP_PASS").replace(/\s+/g, "");
+  if (!user || !pass) {
+    const nomi = Object.keys(env).filter((k) => /smtp|mail|pass/i.test(k));
+    throw new Error(`credenziali SMTP mancanti: SMTP_USER ${user ? "ok" : "assente"}, SMTP_PASS ${pass ? "ok" : "assente"}; segreti simili trovati: ${nomi.join(", ") || "nessuno"}`);
+  }
+  return { user, pass };
+}
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: cors });
   const json = (body: unknown, status = 200) => new Response(JSON.stringify(body), { status, headers: { ...cors, "Content-Type": "application/json" } });
@@ -35,11 +51,11 @@ Deno.serve(async (req) => {
     const tabella = `<table cellpadding="6" style="border-collapse:collapse;font:14px system-ui,Arial">${CAMPI
       .filter(([k]) => String(d[k] ?? "").trim())
       .map(([k, label]) => `<tr><td style="color:#5f636b;vertical-align:top">${esc(label)}</td><td><b>${esc(d[k]).replace(/\n/g, "<br>")}</b></td></tr>`).join("")}</table>`;
+    const { user, pass } = smtpCredenziali();
     const smtp = nodemailer.createTransport({
-      host: Deno.env.get("SMTP_HOST") ?? "smtp.gmail.com", port: 465, secure: true,
-      auth: { user: Deno.env.get("SMTP_USER")!, pass: Deno.env.get("SMTP_PASS")! },
+      host: Deno.env.get("SMTP_HOST") ?? "smtp.gmail.com", port: 465, secure: true, auth: { user, pass },
     });
-    const from = `"Job Academy" <${Deno.env.get("SMTP_USER")}>`;
+    const from = `"Job Academy" <${user}>`;
     await smtp.sendMail({ from, to: ADMIN, replyTo: String(d.email), subject: `Richiesta personale: ${d.ragione_sociale} (${d.numero} persone)`,
       html: `<p>Nuova richiesta di personale dal sito www.jobacademysrl.com.</p>${tabella}<p>Consenso privacy dato il ${new Date().toLocaleString("it-IT", { timeZone: "Europe/Rome" })}.</p>` });
     await smtp.sendMail({ from, to: String(d.email), replyTo: ADMIN, subject: "Abbiamo ricevuto la tua richiesta di personale · Job Academy",
