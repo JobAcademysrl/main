@@ -83,7 +83,7 @@ section { padding: 96px 0; }
 .hero-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 48px; align-items: center; }
 @media (max-width: 960px) { .hero-grid { grid-template-columns: 1fr; } }
 .ctas { display: flex; flex-wrap: wrap; gap: 12px; }
-.pills { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 36px; }
+.pills { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: 36px; max-width: 460px; }
 .pill { padding: 10px 16px; border-radius: 16px; background: #ffffff1a; border: 1px solid #ffffff2e; backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); font-size: 14px; }
 .pill b { display: block; font-size: 20px; font-weight: 600; }
 
@@ -367,3 +367,5 @@ table.data select, table.data input { height: 36px; font-size: 14px; padding: 0 
 .jam > *, .band-micro > *, .sector > * { min-width: 0; }
 .row > * { min-width: 0; }
 @media (max-width: 480px) { .jam, .band-micro { padding: 24px 18px; border-radius: 28px; } .jam .card { padding: 20px; } }
+
+.mail-note { margin: 12px 0 0; font-size: 14px; color: var(--muted, #5b6474); min-height: 1.4em; }

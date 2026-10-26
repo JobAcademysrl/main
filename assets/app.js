@@ -65,6 +65,15 @@
       });
   });
 
+  // ---------- email button: mailto does nothing without a mail app, so also copy the address ----------
+  var mb = d.getElementById('mail-btn');
+  if (mb) mb.addEventListener('click', function () {
+    var note = d.getElementById('mail-note');
+    if (navigator.clipboard) navigator.clipboard.writeText('info@jobacademyilma.com').then(function () {
+      if (note) note.innerHTML = 'Indirizzo <strong>info@jobacademyilma.com</strong> copiato: se non si apre la tua app di posta, incollalo in una nuova email · <a href="https://mail.google.com/mail/?view=cm&amp;to=info@jobacademyilma.com&amp;su=Richiesta%20informazioni%20dal%20sito" target="_blank" rel="noopener">scrivi da Gmail</a>';
+    }).catch(function () {});
+  });
+
   // ---------- JAM: hand the data over to the agents platform, which pre-fills its registration ----------
   var jam = d.getElementById('jam-form');
   if (jam) jam.addEventListener('submit', function (e) {
