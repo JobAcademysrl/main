@@ -369,3 +369,36 @@ table.data select, table.data input { height: 36px; font-size: 14px; padding: 0 
 @media (max-width: 480px) { .jam, .band-micro { padding: 24px 18px; border-radius: 28px; } .jam .card { padding: 20px; } }
 
 .mail-note { margin: 12px 0 0; font-size: 14px; color: var(--muted, #5b6474); min-height: 1.4em; }
+
+/* showreel */
+.reel-sec { padding-top: 0; }
+.reel-head { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 16px 28px; margin-bottom: 28px; }
+.reel-head > div { min-width: 0; }
+.reel-head h2 { margin-bottom: 0; }
+.reel { border-radius: 28px; overflow: hidden; background: #000; box-shadow: 0 30px 60px #0000001f; }
+.reel video { display: block; width: 100%; aspect-ratio: 16 / 9; background: #000; }
+@media (max-width: 600px) { .reel { border-radius: 20px; } .reel-head .btn { width: 100%; white-space: normal; height: auto; min-height: 48px; padding: 12px 20px; text-align: center; line-height: 1.25; } }
+
+/* landing microcredito */
+.lp-hero { padding: 72px 0 80px; }
+.lp-hero h1 { font-size: clamp(38px, 1.4rem + 3.2vw, 68px); }
+.lp-hero .reel { box-shadow: 0 40px 80px #00000080, inset 0 0 0 1px #ffffff26; }
+.lp-hero .reel video { border-radius: 0; }
+.lp-hero .note { margin: 14px 0 0; font-size: 14px; color: #ffd1cc; }
+.lp-facts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+.lp-facts div { background: var(--surface); border-radius: 20px; padding: 20px; font-size: 15px; color: var(--muted); }
+.lp-facts b { display: block; font-size: clamp(26px, 1.1rem + 1.2vw, 36px); font-weight: 600; letter-spacing: -.02em; color: var(--ink); font-variant-numeric: tabular-nums; }
+@media (max-width: 860px) { .lp-facts { grid-template-columns: 1fr 1fr; } }
+.lp-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 32px; padding: 0; list-style: none; }
+.lp-steps li { background: #fff; border-radius: 20px; padding: 20px; min-width: 0; }
+.lp-steps .when { display: block; font-size: 13px; font-weight: 600; color: var(--blue); text-transform: uppercase; letter-spacing: .04em; margin-bottom: 6px; }
+.lp-steps b { display: block; font-size: 19px; margin-bottom: 4px; }
+.lp-steps p { margin: 0; color: var(--muted); font-size: 15px; }
+@media (max-width: 860px) { .lp-steps { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 480px) { .lp-steps, .lp-facts { grid-template-columns: 1fr; } }
+.send { display: flex; flex-wrap: wrap; gap: 12px; }
+.btn-wa { background: #1f9e4f; }
+.faq details { border-top: 1px solid var(--line); padding: 16px 0; }
+.faq details:last-child { border-bottom: 1px solid var(--line); }
+.faq summary { cursor: pointer; font-weight: 500; font-size: 18px; }
+.faq details p { margin: 10px 0 0; color: var(--muted); max-width: 70ch; }
